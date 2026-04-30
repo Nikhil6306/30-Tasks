@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GastroNomad | Premium Recipe Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="loader-wrapper">
+        <div class="loader"></div>
+    </div>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                <span>GastroNomad</span>
+            </div>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="recipeSearch" placeholder="Search recipe by title or category...">
+            </div>
+            <button id="addRecipeBtn" class="btn-primary">
+                <i class="fas fa-plus"></i> New Recipe
+            </button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Culinary Perfection <br>In Your Hands</h1>
+            <p>Manage, share, and discover the world's finest recipes with an interface designed for creators.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="filter-section">
+            <button class="filter-btn active" data-category="all">All</button>
+            <button class="filter-btn" data-category="Breakfast">Breakfast</button>
+            <button class="filter-btn" data-category="Lunch">Lunch</button>
+            <button class="filter-btn" data-category="Dinner">Dinner</button>
+            <button class="filter-btn" data-category="Dessert">Dessert</button>
+        </div>
+
+        <div id="recipeGrid" class="recipe-grid">
+            <!-- Recipes will be loaded here -->
+        </div>
+
+        <div id="emptyState" class="empty-state hidden">
+            <i class="fas fa-receipt"></i>
+            <h3>No recipes found</h3>
+            <p>Start your culinary journey by adding your first recipe.</p>
+        </div>
+    </main>
+
+    <!-- Modal for Add/Edit Recipe -->
+    <div id="recipeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Recipe</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <form id="recipeForm">
+                <input type="hidden" id="recipeId">
+                <div class="form-group">
+                    <label for="title">Recipe Title</label>
+                    <input type="text" id="title" required placeholder="e.g., Homemade Truffle Pasta">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" required>
+                            <option value="">Select Category</option>
+                            <option value="Breakfast">Breakfast</option>
+                            <option value="Lunch">Lunch</option>
+                            <option value="Dinner">Dinner</option>
+                            <option value="Dessert">Dessert</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="prepTime">Prep Time</label>
+                        <input type="text" id="prepTime" required placeholder="e.g., 45 mins">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ingredients">Ingredients (one per line)</label>
+                    <textarea id="ingredients" required placeholder="2 cups flour&#10;3 eggs&#10;1 tsp salt" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="steps">Cooking Steps (one per line)</label>
+                    <textarea id="steps" required placeholder="Preheat oven...&#10;Mix dry ingredients..." rows="4"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary close-modal">Cancel</button>
+                    <button type="submit" class="btn-primary" id="saveBtn">Save Recipe</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 GastroNomad. Crafted for the modern chef.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
