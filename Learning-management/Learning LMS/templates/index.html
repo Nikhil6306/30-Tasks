@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EduVault — Learning Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">EduVault</span>
+      <span class="logo-tag">LMS</span>
+    </div>
+    <nav class="nav">
+      <button class="nav-btn active" data-view="courses">Courses</button>
+      <button class="nav-btn" data-view="add">+ Add Course</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <h1 class="hero-title">Manage <em>Knowledge.</em><br>Empower Learners.</h1>
+    <p class="hero-sub">Add, edit, and organise courses with full module control.</p>
+    <div class="stats-bar" id="statsBar">
+      <div class="stat"><span class="stat-num" id="statCourses">—</span><span class="stat-label">Courses</span></div>
+      <div class="stat-div"></div>
+      <div class="stat"><span class="stat-num" id="statInstructors">—</span><span class="stat-label">Instructors</span></div>
+      <div class="stat-div"></div>
+      <div class="stat"><span class="stat-num" id="statModules">—</span><span class="stat-label">Modules</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+  <!-- COURSES VIEW -->
+  <section id="view-courses" class="view active">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search courses or instructors…" class="search-input"/>
+      </div>
+      <span id="courseCount" class="count-badge"></span>
+    </div>
+    <div class="grid" id="courseGrid">
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading courses…</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADD / EDIT VIEW -->
+  <section id="view-add" class="view">
+    <div class="form-container">
+      <div class="form-header">
+        <h2 id="formTitle">Add New Course</h2>
+        <p id="formSub">Fill in the details below to create a course.</p>
+      </div>
+
+      <form id="courseForm" class="course-form" onsubmit="return false;">
+        <input type="hidden" id="editId"/>
+
+        <div class="form-row two-col">
+          <div class="field">
+            <label>Course Title <span class="req">*</span></label>
+            <input type="text" id="fTitle" placeholder="e.g. Introduction to Python" required/>
+          </div>
+          <div class="field">
+            <label>Instructor Name <span class="req">*</span></label>
+            <input type="text" id="fInstructor" placeholder="e.g. Dr. Anita Sharma" required/>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Description <span class="req">*</span></label>
+          <textarea id="fDescription" rows="4" placeholder="Describe what students will learn…" required></textarea>
+        </div>
+
+        <div class="form-row two-col">
+          <div class="field">
+            <label>Duration <span class="req">*</span></label>
+            <input type="text" id="fDuration" placeholder="e.g. 8 weeks / 24 hours" required/>
+          </div>
+        </div>
+
+        <!-- MODULES -->
+        <div class="modules-section">
+          <div class="modules-header">
+            <h3>Course Modules</h3>
+            <button type="button" class="btn-add-module" onclick="addModuleRow()">+ Add Module</button>
+          </div>
+          <div id="modulesList" class="modules-list">
+            <!-- dynamic rows -->
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" onclick="cancelForm()">Cancel</button>
+          <button type="button" class="btn-primary" onclick="submitForm()">
+            <span id="submitLabel">Create Course</span>
+          </button>
+        </div>
+
+        <div id="formError" class="form-error hidden"></div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── MODAL: VIEW COURSE ── -->
+<div id="modal" class="modal-overlay hidden" onclick="closeModal(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div id="toast" class="toast hidden"></div>
+
+<!-- ── CONFIRM DIALOG ── -->
+<div id="confirmOverlay" class="modal-overlay hidden">
+  <div class="confirm-box">
+    <div class="confirm-icon">🗑</div>
+    <h3>Delete Course?</h3>
+    <p>This action cannot be undone.</p>
+    <div class="confirm-actions">
+      <button class="btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+      <button class="btn-danger" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>
