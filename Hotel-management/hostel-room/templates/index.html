@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HostelOS — Room Allocation System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <!-- Background Grid -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">⬡</span>
+        <div>
+          <span class="logo-title">HostelOS</span>
+          <span class="logo-sub">Room Allocation System</span>
+        </div>
+      </div>
+      <div class="header-stats" id="headerStats">
+        <div class="stat-chip"><span id="statTotal">—</span><label>Total</label></div>
+        <div class="stat-chip"><span id="statBlocks">—</span><label>Blocks</label></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Controls Bar -->
+    <section class="controls-bar">
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="searchInput" placeholder="Search by student or room…" />
+      </div>
+      <div class="filter-group">
+        <select id="filterBlock">
+          <option value="">All Blocks</option>
+        </select>
+        <select id="filterFloor">
+          <option value="">All Floors</option>
+          <option value="1">Floor 1</option>
+          <option value="2">Floor 2</option>
+          <option value="3">Floor 3</option>
+          <option value="4">Floor 4</option>
+          <option value="5">Floor 5</option>
+        </select>
+      </div>
+      <button class="btn-primary" id="openAddModal">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        New Allocation
+      </button>
+    </section>
+
+    <!-- Stats Cards -->
+    <section class="stats-section" id="blockStats"></section>
+
+    <!-- Table Section -->
+    <section class="table-section">
+      <div class="table-header">
+        <h2>Room Assignments</h2>
+        <span class="record-count" id="recordCount">0 records</span>
+      </div>
+      <div class="table-wrap">
+        <table id="allocTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Student Name</th>
+              <th>Room No.</th>
+              <th>Block</th>
+              <th>Floor</th>
+              <th>Check-In</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr class="empty-row">
+              <td colspan="7">
+                <div class="empty-state">
+                  <span class="empty-icon">🏠</span>
+                  <p>No allocations found</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- ─── Modal ─── -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h3 id="modalTitle">New Allocation</h3>
+        <button class="modal-close" id="closeModal">✕</button>
+      </div>
+      <form id="allocForm" autocomplete="off">
+        <input type="hidden" id="editId" />
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label for="studentName">Student Name</label>
+            <input type="text" id="studentName" placeholder="e.g. Arjun Sharma" required />
+          </div>
+          <div class="form-group">
+            <label for="roomNumber">Room Number</label>
+            <input type="text" id="roomNumber" placeholder="e.g. 204" required />
+          </div>
+          <div class="form-group">
+            <label for="block">Block</label>
+            <input type="text" id="block" placeholder="e.g. A" maxlength="3" required />
+          </div>
+          <div class="form-group">
+            <label for="floor">Floor</label>
+            <select id="floor" required>
+              <option value="">Select floor</option>
+              <option value="1">Floor 1</option>
+              <option value="2">Floor 2</option>
+              <option value="3">Floor 3</option>
+              <option value="4">Floor 4</option>
+              <option value="5">Floor 5</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="checkInDate">Check-In Date</label>
+            <input type="date" id="checkInDate" required />
+          </div>
+        </div>
+        <div class="form-error" id="formError"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="cancelModal">Cancel</button>
+          <button type="submit" class="btn-primary" id="submitBtn">
+            <span id="submitText">Add Allocation</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Confirm Dialog -->
+  <div class="modal-overlay" id="confirmOverlay">
+    <div class="modal confirm-modal">
+      <div class="confirm-icon">⚠</div>
+      <h3>Delete Allocation?</h3>
+      <p id="confirmText">This action cannot be undone.</p>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="confirmCancel">Cancel</button>
+        <button class="btn-danger" id="confirmDelete">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
